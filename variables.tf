@@ -36,7 +36,7 @@ variable "gke_name" {
 variable "username" {
   description = "Username for accessing the Kubernetes master"
   type        = string
-  default     = "kubeadmin"
+  default     = "kubeadmin@123456"
 }
 
 variable "password" {
