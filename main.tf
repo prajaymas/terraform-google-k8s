@@ -96,18 +96,18 @@ data "template_file" "kubeconfig" {
   template = file("${path.module}/gke_kubeconfig-template.yaml")
 
   vars = {
-    cluster_name    = google_container_cluster.gke.*.name
-    endpoint        = google_container_cluster.gke.*.endpoint
-    user_name       = google_container_cluster.gke.*.master_auth.0.username
-    user_password   = google_container_cluster.gke.*.master_auth.0.password
-    cluster_ca      = google_container_cluster.gke.*.master_auth.0.cluster_ca_certificate
-    client_cert     = google_container_cluster.gke.*.master_auth.0.client_certificate
-    client_cert_key = google_container_cluster.gke.*.master_auth.0.client_key
+    cluster_name    = google_container_cluster.gke[count.index].name
+    endpoint        = google_container_cluster.gke[count.index].endpoint
+    user_name       = google_container_cluster.gke[count.index].master_auth.0.username
+    user_password   = google_container_cluster.gke[count.index].master_auth.0.password
+    cluster_ca      = google_container_cluster.gke[count.index].master_auth.0.cluster_ca_certificate
+    client_cert     = google_container_cluster.gke[count.index].master_auth.0.client_certificate
+    client_cert_key = google_container_cluster.gke[count.index].master_auth.0.client_key
   }
 }
 
 resource "local_file" "kubeconfiggke" {
   count    = var.enable_google ? 1 : 0
-  content  = data.template_file.kubeconfig.*.rendered
+  content  = data.template_file.kubeconfig[count.index].rendered
   filename = "${path.module}/kubeconfig_gke"
 }
