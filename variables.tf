@@ -10,12 +10,6 @@ variable "enable_regional_cluster" {
   default     = false
 }
 
-variable "random_cluster_suffix" {
-  description = "Random 6 byte hex suffix for cluster name"
-  type        = string
-  default     = ""
-}
-
 variable "gcp_project" {
   description = "GCP Project ID"
   type        = string

@@ -1,8 +1,3 @@
-resource "random_id" "cluster_name" {
-  count       = var.enable_google ? 1 : 0
-  byte_length = 6
-}
-
 # Get available zones for Google Cloud region
 data "google_compute_zones" "available" {
   count   = var.enable_google ? 1 : 0
@@ -20,7 +15,7 @@ data "google_container_engine_versions" "current" {
 
 resource "google_container_cluster" "gke" {
   count              = var.enable_google ? 1 : 0
-  name               = "${var.gke_name}-${random_id.cluster_name[count.index].hex}"
+  name               = var.gke_name
   location           = var.enable_regional_cluster ? var.gcp_region : data.google_compute_zones.available[count.index].names[0]
   project            = var.gcp_project
   min_master_version = data.google_container_engine_versions.current[count.index].latest_master_version
