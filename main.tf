@@ -27,10 +27,6 @@ resource "google_container_cluster" "gke" {
   remove_default_node_pool = true
   initial_node_count       = 1
 
-  node_config {
-    service_account = var.gke_serviceaccount
-  }
-
   addons_config {
     http_load_balancing {
       disabled = false
